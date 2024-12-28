@@ -1,0 +1,26 @@
+name: PR Response Bot
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  auto-reply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Use the Node.js version you prefer
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Post a comment on PR using Octokit
+        run: node pr-comment.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
